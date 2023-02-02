@@ -23,11 +23,16 @@ const Home = () => {
   };
   return (
     <div>
-      <p>
+      <h1>
         {signedInUser &&
           `You  are successfully logged in ${signedInUser.email}`}
-      </p>
-      <button type="button" className="register-button" onClick={logOut}>
+      </h1>
+      <button
+        type="button"
+        className="register-button"
+        onClick={logOut}
+        style={{ marginTop: "100px" }}
+      >
         Sign Out
       </button>
     </div>
