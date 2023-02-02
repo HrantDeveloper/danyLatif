@@ -1,21 +1,25 @@
 
 import './App.css';
 import {Routes ,Route} from 'react-router-dom';
-import SignUp from './pages/signUp/SignUp';
-import SignIn from './pages/signIn/SignIn';
-import Forgotten from './pages/forgotten/Forgotten';
-import Home from './pages/home/Home';
+import SignUpPage from './pages/signUpPage/SignUpPage';
+import SignInPage from './pages/signInPage/SignInPage';
+import ForgottenPage from './pages/forgottenPage/ForgottenPage';
+import HomePage from './pages/homePage/HomePage';
+import Error from './pages/error/Error';
+//ROUTER
+import {ROUTER} from "./router/index"
+const {HOME, SIGNIN, SIGNUP, FORGOTTEN, ERROR} = ROUTER;
 
-import "./pages/signUp/SignUp.css"
 
 function App() {
   return (
     <div className="App">
     <Routes>
-      <Route path = "/" element = {<SignUp/>}/>
-      <Route path = "sign-in" element = {<SignIn/>}/>
-      <Route path = "forgotten" element = {<Forgotten/>}/>
-      <Route path = "home" element = {<Home/>}/>
+      <Route path = {SIGNUP} element = {<SignUpPage/>}/>
+      <Route path = {SIGNIN} element = {<SignInPage/>}/>
+      <Route path = {FORGOTTEN} element = {<ForgottenPage/>}/>
+      <Route path = {HOME} element = {<HomePage/>}/>
+      <Route path = {ERROR} element = {<Error/>}/>
     </Routes>
     </div>
   );

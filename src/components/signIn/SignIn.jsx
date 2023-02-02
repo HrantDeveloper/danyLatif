@@ -3,35 +3,41 @@ import { AiFillApple } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase";
+import { auth, signInWithGoogle } from "../../firebase";
+//ROUTER
+import { ROUTER } from "../../router/index";
+const { HOME, SIGNUP, FORGOTTEN } = ROUTER;
 
 const SignIn = () => {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [isRemembered, setIsRemembered] = useState("");
+  const [isRemembered, setIsRemembered] = useState(false); //For future
+
   const navigate = useNavigate();
   const login = async () => {
     try {
-      const user = await signInWithEmailAndPassword(
-        auth,
-        loginEmail,
-        loginPassword
-      );
-      console.log(user);
-      navigate("/home");
+      await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+      navigate(HOME);
     } catch (error) {
-      console.log(error.message);
+      setLoginEmail("");
+      setLoginPassword("");
+      alert("Invalid e-mail or password");
     }
   };
+  const continueWithGoogle = async () => {
+    await signInWithGoogle();
+    navigate(HOME);
+  };
+
   return (
     <div className="sign-up-wrapper" style={{ height: "678px" }}>
-      <div className="register">Login</div>
-      <div className="top-text">Gain total control of Your money</div>
+      <h1 className="register-title">Login</h1>
+      <p className="top-text">Gain total control of Your money</p>
       <div className="apple-google-area">
         <AiFillApple className="icon" />
         <p>Continue with Apple</p>
       </div>
-      <div className="apple-google-area">
+      <div className="apple-google-area" onClick={continueWithGoogle}>
         <FcGoogle className="icon" />
         <p>Continue with Google</p>
       </div>
@@ -50,7 +56,6 @@ const SignIn = () => {
             onChange={(e) => {
               setLoginEmail(e.target.value);
             }}
-            //  className = {email && !email.match(validations.emailValidation) && "error-border"}
             className="email-password"
           ></input>
         </div>
@@ -63,7 +68,6 @@ const SignIn = () => {
             onChange={(e) => {
               setLoginPassword(e.target.value);
             }}
-            //  className = {email && !email.match(validations.emailValidation) && "error-border"}
             className="email-password"
           ></input>
         </div>
@@ -74,22 +78,20 @@ const SignIn = () => {
               className="checkbox"
               id="remembered"
               name="remembered"
-              // ref={isTopRef}
-              // checked={newsData.isTop == "top" ? true : false}
               onChange={(e) => {
                 setIsRemembered((prev) => !prev);
               }}
             />
-            Remember Me
+            <label htmlFor="remembered">Remember Me</label>
           </div>
-          <Link to="/forgotten">Forgot password?</Link>
+          <Link to={FORGOTTEN}>Forgot password?</Link>
         </div>
         <button type="button" className="register-button" onClick={login}>
           Login
         </button>
       </form>
       <div className="question-area">
-        Don’t have an account?<Link to="/">Sign Up</Link>
+        Don’t have an account?<Link to={SIGNUP}>Sign Up</Link>
       </div>
     </div>
   );

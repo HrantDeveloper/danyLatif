@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+//ROUTER
+import { ROUTER } from "../../router/index";
+const { SIGNIN } = ROUTER;
 const Home = () => {
   const [signedInUser, setSignedInUser] = useState("");
   const navigate = useNavigate();
@@ -9,11 +12,11 @@ const Home = () => {
     setSignedInUser(currentUser);
   });
 
-  const signOut = async () => {
+  const logOut = async () => {
     try {
       const user = await signOut(auth);
       console.log(user);
-      navigate("/sign-in");
+      navigate(SIGNIN);
     } catch (error) {
       console.log(error.message);
     }
@@ -24,7 +27,7 @@ const Home = () => {
         {signedInUser &&
           `You  are successfully logged in ${signedInUser.email}`}
       </p>
-      <button type="button" className="register-button" onClick={signOut}>
+      <button type="button" className="register-button" onClick={logOut}>
         Sign Out
       </button>
     </div>
